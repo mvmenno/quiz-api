@@ -1,6 +1,6 @@
 # quiz-api
 
-How To run application:
+How to run application:
 
 - first run docker-compose build
 - run docker-compose up -d
