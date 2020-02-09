@@ -28,7 +28,7 @@
     dockerfile: docker/php/Dockerfile
    restart: on-failure
    volumes:
-    - './src:/usr/src/app/src'
+    - './:/usr/src/app'
    env_file:
     - .env
    user: '33:33'

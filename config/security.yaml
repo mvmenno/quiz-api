@@ -1,5 +1,0 @@
-providers:
- api_key_user_provider:
-  entity:
-   class: AppBundle:User
-   property: apikey

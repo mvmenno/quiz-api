@@ -22,6 +22,17 @@ class UserRepository extends ServiceEntityRepository
     // /**
     //  * @return User[] Returns an array of User objects
     //  */
+    
+    
+    public function findOneByApiToken($token){
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.api_token = :val')
+            ->setParameter('val', $token)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+    
+    
     /*
     public function findByExampleField($value)
     {

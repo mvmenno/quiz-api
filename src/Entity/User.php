@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -35,12 +37,32 @@ class User
      * @ORM\Column(type="string", length=255, nullable=true,unique=true)
      */
     private $apiToken;
+    
+    /**
+    * @ORM\Column(type="json")
+    */
+   private $roles = [];
+
+   /**
+    * @ORM\OneToMany(targetEntity="App\Entity\Quiz", mappedBy="User", orphanRemoval=true)
+    */
+   private $quizzes;
+
+   public function __construct()
+   {
+       $this->quizzes = new ArrayCollection();
+   }
 
     public function getId(): ?int
     {
         return $this->id;
     }
-
+    public function setId($id){
+        $this->id = $id;
+        return $this;
+    }
+    
+    
     public function getUsername(): ?string
     {
         return $this->username;
@@ -100,4 +122,48 @@ class User
         // if you had a plainPassword property, you'd nullify it here
         // $this->plainPassword = null;
     }
+    /**
+     * 
+     * @return array
+     */
+    public function getRoles() :array{
+        $roles = $this->roles;
+        return array_unique($roles);
+    }
+    public function setRoles(array $roles): self{
+        $this->roles = $roles;
+        return $this;
+    }
+
+    /**
+     * @return Collection|Quiz[]
+     */
+    public function getQuizzes(): Collection
+    {
+        return $this->quizzes;
+    }
+
+    public function addQuiz(Quiz $quiz): self
+    {
+        if (!$this->quizzes->contains($quiz)) {
+            $this->quizzes[] = $quiz;
+            $quiz->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuiz(Quiz $quiz): self
+    {
+        if ($this->quizzes->contains($quiz)) {
+            $this->quizzes->removeElement($quiz);
+            // set the owning side to null (unless already changed)
+            if ($quiz->getUser() === $this) {
+                $quiz->setUser(null);
+            }
+        }
+
+        return $this;
+    }
 }
+

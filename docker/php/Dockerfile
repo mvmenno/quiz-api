@@ -27,5 +27,8 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 WORKDIR /usr/src/app
 COPY . /usr/src/app
 
+RUN cd /usr/src/app && composer update
+
+
 RUN PATH=$PATH:/usr/src/apps/vendor/bin:bin
 RUN chown -R www-data:www-data /usr/src/app
