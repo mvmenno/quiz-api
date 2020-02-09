@@ -14,10 +14,11 @@ class UserFixtures extends Fixture {
     public function __construct(UserPasswordEncoderInterface $passwordEncoder) {
         $this->passwordEncoder = $passwordEncoder;
     }
-
+    /**
+     * 
+     * @param ObjectManager $manager
+     */
     public function load(ObjectManager $manager) {
-        // $product = new Product();
-        // $manager->persist($product);
         $user = new User();
         
         $user->setEmail('test@example.com');

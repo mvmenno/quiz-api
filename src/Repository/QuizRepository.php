@@ -18,6 +18,11 @@ class QuizRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Quiz::class);
     }
+    /**
+     * 
+     * @param App\Repository\UserRepository $user
+     * @return array
+     */
     public function findByUser($user)
     {
         return $this->createQueryBuilder('q')
